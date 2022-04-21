@@ -1,7 +1,7 @@
 import React from "react";
 
 function App() {
-  return <h3>Checkingd...</h3>;
+  return <h3>Checking...</h3>;
 }
 
 export default App;
