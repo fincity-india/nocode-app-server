@@ -2,9 +2,4 @@ nocode:
   master:
      db:
        mongo:
-         host: localhost
-         port: 27017
-         database: master
-         authenticationDatabase: admin
-         username: root
-         password: kiran@123
+         uri: mongodb://root:Kiran%40123@localhost:27017/master?authSource=admin

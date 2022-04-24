@@ -1,32 +1,9 @@
-{"properties": [
-  {
-    "name": "nocode.master.db.mongo.host",
-    "type": "java.lang.String",
-    "description": "A description for 'nocode.master.db.mongo.host'"
-  },
-  {
-    "name": "nocode.master.db.mongo.database",
-    "type": "java.lang.String",
-    "description": "A description for 'nocode.master.db.mongo.database'"
-  },
-  {
-    "name": "nocode.master.db.mongo.port",
-    "type": "java.lang.String",
-    "description": "A description for 'nocode.master.db.mongo.port'"
-  },
-  {
-    "name": "nocode.master.db.mongo.authenticationDatabase",
-    "type": "java.lang.String",
-    "description": "A description for 'nocode.master.db.mongo.authenticationDatabase'"
-  },
-  {
-    "name": "nocode.master.db.mongo.username",
-    "type": "java.lang.String",
-    "description": "A description for 'nocode.master.db.mongo.username'"
-  },
-  {
-    "name": "nocode.master.db.mongo.password",
-    "type": "java.lang.String",
-    "description": "A description for 'nocode.master.db.mongo.password'"
-  }
-]}
+{
+	"properties": [
+		{
+			"name": "nocode.master.db.mongo.uri",
+			"type": "java.lang.String",
+			"description": "Mongo db URI to make connection."
+		}
+	]
+}
