@@ -25,7 +25,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(DataController.MAPPING)
-public class DataController {
+public class DataController extends AbstractAppController {
 
 	public static final String MAPPING = "/api/data";
 
