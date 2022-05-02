@@ -8,6 +8,7 @@ import static com.fincity.nocode.appserver.controller.ControllerConstants.NAMESP
 import static com.fincity.nocode.appserver.controller.ControllerConstants.NAMESPACE_MAPPING;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,9 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonElement;
+import com.fincity.nocode.appserver.model.RequestContext;
+import com.fincity.nocode.appserver.model.UserContext;
+import com.google.gson.JsonObject;
 
-import io.netty.handler.codec.http.HttpRequest;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -31,60 +33,61 @@ public class DataController extends AbstractAppController {
 
 	// Create
 	@PostMapping(NAMESPACE_MAPPING)
-	public Mono<JsonElement> create(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
-			@RequestBody JsonElement element) {
+	public Mono<JsonObject> create(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
+			@RequestBody JsonObject element, ServerHttpRequest request) {
 
-		return Mono.empty();
+		return this.getRequestContext(request).map(c -> dataService.getTable(c.getTenant(), namespace, dataTable)
+				.map(t -> t.create(element).contextWrite(ctx -> ctx.put(RequestContext.NAME, c))));
 	}
 
 	// Read
 	@GetMapping(NAMESPACE_MAPPING + ID_MAPPING)
-	public Mono<JsonElement> getById(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
-			@PathVariable(ID) String id) {
+	public Mono<JsonObject> getById(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
+			@PathVariable(ID) String id, ServerHttpRequest request) {
 
 		return Mono.empty();
 	}
 
 	@PostMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
-	public Mono<Page<JsonElement>> filterWithManyParameters(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataTable, @RequestBody JsonElement filter) {
+	public Mono<Page<JsonObject>> filterWithManyParameters(@PathVariable(NAMESPACE) String namespace,
+			@PathVariable(NAME) String dataTable, @RequestBody JsonObject filter, ServerHttpRequest request) {
 
 		return Mono.empty();
 	}
 
 	@GetMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
-	public Mono<Page<JsonElement>> filterWithAFewParameters(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataTable, HttpRequest request) {
+	public Mono<Page<JsonObject>> filterWithAFewParameters(@PathVariable(NAMESPACE) String namespace,
+			@PathVariable(NAME) String dataTable, ServerHttpRequest request) {
 
 		return Mono.empty();
 	}
 
 	// Update
 	@PutMapping(NAMESPACE_MAPPING)
-	public Mono<JsonElement> updateCompletely(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataTable, @RequestBody JsonElement element) {
+	public Mono<JsonObject> updateCompletely(@PathVariable(NAMESPACE) String namespace,
+			@PathVariable(NAME) String dataTable, @RequestBody JsonObject element, ServerHttpRequest request) {
 
 		return Mono.empty();
 	}
 
 	@PatchMapping(NAMESPACE_MAPPING)
-	public Mono<JsonElement> updatePartially(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataTable, @RequestBody JsonElement element) {
+	public Mono<JsonObject> updatePartially(@PathVariable(NAMESPACE) String namespace,
+			@PathVariable(NAME) String dataTable, @RequestBody JsonObject element, ServerHttpRequest request) {
 
 		return Mono.empty();
 	}
 
 	// Delete
 	@DeleteMapping(NAMESPACE_MAPPING + ID_MAPPING)
-	public Mono<JsonElement> deleteById(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
-			@PathVariable(ID) String id) {
+	public Mono<JsonObject> deleteById(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
+			@PathVariable(ID) String id, ServerHttpRequest request) {
 
 		return Mono.empty();
 	}
 
 	@DeleteMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
-	public Mono<Page<JsonElement>> deleteWithManyParameters(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataTable, @RequestBody JsonElement filter) {
+	public Mono<Page<JsonObject>> deleteWithManyParameters(@PathVariable(NAMESPACE) String namespace,
+			@PathVariable(NAME) String dataTable, @RequestBody JsonObject filter, ServerHttpRequest request) {
 
 		return Mono.empty();
 	}

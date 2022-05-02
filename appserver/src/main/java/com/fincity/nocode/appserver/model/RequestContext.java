@@ -11,7 +11,9 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class UserContext {
+public class RequestContext {
+
+	public static final String NAME = "requestContext";
 
 	private String username;
 	private String tenant;
@@ -19,8 +21,8 @@ public class UserContext {
 	private String token;
 	private Set<String> authorities;
 
-	public static UserContext forAnonymous(String tenant, String app) {
-		return new UserContext().setApp(app).setTenant(tenant).setUsername("_ANONYMOUS_USER")
+	public static RequestContext forAnonymous(String tenant, String app) {
+		return new RequestContext().setApp(app).setTenant(tenant).setUsername("_ANONYMOUS_USER")
 				.setAuthorities(Set.of("_ANONYMOUS"));
 	}
 }
