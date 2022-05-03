@@ -7,6 +7,8 @@ import static com.fincity.nocode.appserver.controller.ControllerConstants.NAME;
 import static com.fincity.nocode.appserver.controller.ControllerConstants.NAMESPACE;
 import static com.fincity.nocode.appserver.controller.ControllerConstants.NAMESPACE_MAPPING;
 
+import java.util.function.Function;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fincity.nocode.appserver.model.RequestContext;
-import com.fincity.nocode.appserver.model.UserContext;
+import com.fincity.nocode.core.db.ITable;
 import com.google.gson.JsonObject;
 
 import reactor.core.publisher.Mono;
@@ -36,8 +38,7 @@ public class DataController extends AbstractAppController {
 	public Mono<JsonObject> create(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
 			@RequestBody JsonObject element, ServerHttpRequest request) {
 
-		return this.getRequestContext(request).map(c -> dataService.getTable(c.getTenant(), namespace, dataTable)
-				.map(t -> t.create(element).contextWrite(ctx -> ctx.put(RequestContext.NAME, c))));
+		return commonChain(request, namespace, dataTable, t -> t.create(element));
 	}
 
 	// Read
@@ -45,21 +46,22 @@ public class DataController extends AbstractAppController {
 	public Mono<JsonObject> getById(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
 			@PathVariable(ID) String id, ServerHttpRequest request) {
 
-		return Mono.empty();
+		
+		return commonChain(request, namespace, dataTable, t -> t.getById(id));
 	}
 
 	@PostMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
 	public Mono<Page<JsonObject>> filterWithManyParameters(@PathVariable(NAMESPACE) String namespace,
 			@PathVariable(NAME) String dataTable, @RequestBody JsonObject filter, ServerHttpRequest request) {
 
-		return Mono.empty();
+		return commonChain(request, namespace, dataTable, t -> t.filter());
 	}
 
 	@GetMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
 	public Mono<Page<JsonObject>> filterWithAFewParameters(@PathVariable(NAMESPACE) String namespace,
 			@PathVariable(NAME) String dataTable, ServerHttpRequest request) {
 
-		return Mono.empty();
+		return commonChain(request, namespace, dataTable, t -> t.filter());
 	}
 
 	// Update
@@ -67,14 +69,14 @@ public class DataController extends AbstractAppController {
 	public Mono<JsonObject> updateCompletely(@PathVariable(NAMESPACE) String namespace,
 			@PathVariable(NAME) String dataTable, @RequestBody JsonObject element, ServerHttpRequest request) {
 
-		return Mono.empty();
+		return commonChain(request, namespace, dataTable, t -> t.update(element));
 	}
 
 	@PatchMapping(NAMESPACE_MAPPING)
 	public Mono<JsonObject> updatePartially(@PathVariable(NAMESPACE) String namespace,
 			@PathVariable(NAME) String dataTable, @RequestBody JsonObject element, ServerHttpRequest request) {
 
-		return Mono.empty();
+		return commonChain(request, namespace, dataTable, t -> t.patch(element));
 	}
 
 	// Delete
@@ -82,14 +84,19 @@ public class DataController extends AbstractAppController {
 	public Mono<JsonObject> deleteById(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataTable,
 			@PathVariable(ID) String id, ServerHttpRequest request) {
 
-		return Mono.empty();
+		return commonChain(request, namespace, dataTable, t -> t.deleteById(id));
 	}
 
 	@DeleteMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
-	public Mono<Page<JsonObject>> deleteWithManyParameters(@PathVariable(NAMESPACE) String namespace,
+	public Mono<Integer> deleteWithManyParameters(@PathVariable(NAMESPACE) String namespace,
 			@PathVariable(NAME) String dataTable, @RequestBody JsonObject filter, ServerHttpRequest request) {
 
-		return Mono.empty();
+		return commonChain(request, namespace, dataTable, t -> t.deleteByFilter());
 	}
-
+	
+	private <R> Mono<R> commonChain(ServerHttpRequest request, String namespace, String dataTable,
+			Function<ITable, Mono<R>> mapper) {
+		return this.getRequestContext(request).flatMap(c -> dataService.getTable(c.getTenant(), namespace, dataTable)
+				.flatMap(mapper).contextWrite(ctx -> ctx.put(RequestContext.NAME, c)));
+	}
 }
