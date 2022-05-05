@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fincity.nocode.appserver.model.RequestContext;
-import com.fincity.nocode.core.db.ITable;
+import com.fincity.nocode.core.db.IStore;
 import com.google.gson.JsonObject;
 
 import reactor.core.publisher.Mono;
@@ -95,7 +95,7 @@ public class DataController extends AbstractAppController {
 	}
 	
 	private <R> Mono<R> commonChain(ServerHttpRequest request, String namespace, String dataTable,
-			Function<ITable, Mono<R>> mapper) {
+			Function<IStore, Mono<R>> mapper) {
 		return this.getRequestContext(request).flatMap(c -> dataService.getTable(c.getTenant(), namespace, dataTable)
 				.flatMap(mapper).contextWrite(ctx -> ctx.put(RequestContext.NAME, c)));
 	}

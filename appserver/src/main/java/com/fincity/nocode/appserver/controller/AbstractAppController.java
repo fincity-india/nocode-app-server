@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import com.fincity.nocode.appserver.model.RequestContext;
-import com.fincity.nocode.core.db.DataService;
-import com.fincity.nocode.core.db.IData;
+import com.fincity.nocode.core.db.DataBaseService;
+import com.fincity.nocode.core.db.IBase;
 
 import reactor.core.publisher.Mono;
 
 public abstract class AbstractAppController {
 	
 	@Autowired
-	protected DataService dataService;
+	protected DataBaseService dataService;
 	
 	@Autowired
 	@Qualifier("masterData")
-	protected IData masterData;
+	protected IBase masterData;
 
 	protected Mono<RequestContext> getRequestContext(ServerHttpRequest request) {
 		
