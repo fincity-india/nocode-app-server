@@ -13,13 +13,13 @@ import com.fincity.nocode.core.configuration.master.NoCodeCoreConfiguration;
 public class AppServerConfiguration extends NoCodeCoreConfiguration implements WebFluxConfigurer {
 
 	@Override
-	public void addCorsMappings(CorsRegistry registry) {
+	public void addCorsMappings(final CorsRegistry registry) {
 
 		registry.addMapping("/api/**");
 	}
 	
 	@Override
-	public void configureHttpMessageCodecs(ServerCodecConfigurer configurer) {
+	public void configureHttpMessageCodecs(final ServerCodecConfigurer configurer) {
 	
 		WebFluxConfigurer.super.configureHttpMessageCodecs(configurer);
 	}

@@ -21,7 +21,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = "com.fincity")
 public class AppServerApplication {
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SpringApplication.run(AppServerApplication.class, args);
 	}
 

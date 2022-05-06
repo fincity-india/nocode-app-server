@@ -35,31 +35,31 @@ public class DataController extends AbstractAppController {
 
 	// Create
 	@PostMapping(NAMESPACE_MAPPING)
-	public Mono<JsonObject> create(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataStore,
-			@RequestBody JsonObject element, ServerHttpRequest request) {
+	public Mono<JsonObject> create(@PathVariable(NAMESPACE) final String namespace, @PathVariable(NAME) final String dataStore,
+			@RequestBody final JsonObject element, final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore, t -> t.create(element));
 	}
 
 	// Read
 	@GetMapping(NAMESPACE_MAPPING + ID_MAPPING)
-	public Mono<JsonObject> getById(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataStore,
-			@PathVariable(ID) String id, ServerHttpRequest request) {
+	public Mono<JsonObject> getById(@PathVariable(NAMESPACE) final String namespace, @PathVariable(NAME) final String dataStore,
+			@PathVariable(ID) final String id, final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore, t -> t.getById(id));
 	}
 
 	@PostMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
-	public Mono<Page<JsonObject>> filterWithManyParameters(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataStore, @RequestBody JsonObject filter, ServerHttpRequest request) {
+	public Mono<Page<JsonObject>> filterWithManyParameters(@PathVariable(NAMESPACE) final String namespace,
+			@PathVariable(NAME) final String dataStore, @RequestBody final JsonObject filter, final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore,
 				t -> t.filter(this.conditionFrom(filter), this.pageableFrom(filter)));
 	}
 
 	@GetMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
-	public Mono<Page<JsonObject>> filterWithAFewParameters(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataStore, ServerHttpRequest request) {
+	public Mono<Page<JsonObject>> filterWithAFewParameters(@PathVariable(NAMESPACE) final String namespace,
+			@PathVariable(NAME) final String dataStore, final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore,
 				t -> t.filter(this.conditionFrom(request), this.pageableFrom(request)));
@@ -67,35 +67,35 @@ public class DataController extends AbstractAppController {
 
 	// Update
 	@PutMapping(NAMESPACE_MAPPING)
-	public Mono<JsonObject> updateCompletely(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataStore, @RequestBody JsonObject element, ServerHttpRequest request) {
+	public Mono<JsonObject> updateCompletely(@PathVariable(NAMESPACE) final String namespace,
+			@PathVariable(NAME) final String dataStore, @RequestBody final JsonObject element, final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore, t -> t.update(element));
 	}
 
 	@PatchMapping(NAMESPACE_MAPPING)
-	public Mono<JsonObject> updatePartially(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataStore, @RequestBody JsonObject element, ServerHttpRequest request) {
+	public Mono<JsonObject> updatePartially(@PathVariable(NAMESPACE) final String namespace,
+			@PathVariable(NAME) final String dataStore, @RequestBody final JsonObject element, final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore, t -> t.patch(element));
 	}
 
 	// Delete
 	@DeleteMapping(NAMESPACE_MAPPING + ID_MAPPING)
-	public Mono<JsonObject> deleteById(@PathVariable(NAMESPACE) String namespace, @PathVariable(NAME) String dataStore,
-			@PathVariable(ID) String id, ServerHttpRequest request) {
+	public Mono<JsonObject> deleteById(@PathVariable(NAMESPACE) final String namespace, @PathVariable(NAME) final String dataStore,
+			@PathVariable(ID) final String id, final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore, t -> t.deleteById(id));
 	}
 
 	@DeleteMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
-	public Mono<Integer> deleteWithManyParameters(@PathVariable(NAMESPACE) String namespace,
-			@PathVariable(NAME) String dataStore, @RequestBody JsonObject filter, ServerHttpRequest request) {
+	public Mono<Integer> deleteWithManyParameters(@PathVariable(NAMESPACE) final String namespace,
+			@PathVariable(NAME) final String dataStore, @RequestBody final JsonObject filter, final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore, t -> t.deleteByFilter(this.conditionFrom(filter)));
 	}
 
-	private <R> Mono<R> commonChain(ServerHttpRequest request, String namespace, String dataStore,
+	private <R> Mono<R> commonChain(final ServerHttpRequest request, final String namespace, final String dataStore,
 			Function<IStore, Mono<R>> mapper) {
 		return this.getRequestContext(request).flatMap(c -> dataService.getStore(c.getTenant(), namespace, dataStore)
 				.flatMap(mapper).contextWrite(ctx -> ctx.put(RequestContext.NAME, c)));
