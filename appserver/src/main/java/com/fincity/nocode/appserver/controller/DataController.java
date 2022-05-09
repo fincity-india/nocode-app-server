@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fincity.nocode.appserver.model.RequestContext;
 import com.fincity.nocode.core.db.IStore;
+import com.fincity.nocode.core.db.request.FilterRequest;
 import com.google.gson.JsonObject;
 
 import reactor.core.publisher.Mono;
@@ -53,7 +54,7 @@ public class DataController extends AbstractAppController {
 
 	@PostMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
 	public Mono<Page<JsonObject>> filterWithManyParameters(@PathVariable(NAMESPACE) final String namespace,
-			@PathVariable(NAME) final String dataStore, @RequestBody final JsonObject filter,
+			@PathVariable(NAME) final String dataStore, @RequestBody final FilterRequest filter,
 			final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore, t -> t.filter(filter));
@@ -94,7 +95,7 @@ public class DataController extends AbstractAppController {
 
 	@DeleteMapping(NAMESPACE_MAPPING + FILTER_MAPPING)
 	public Mono<Integer> deleteWithManyParameters(@PathVariable(NAMESPACE) final String namespace,
-			@PathVariable(NAME) final String dataStore, @RequestBody final JsonObject filter,
+			@PathVariable(NAME) final String dataStore, @RequestBody final FilterRequest filter,
 			final ServerHttpRequest request) {
 
 		return commonChain(request, namespace, dataStore, t -> t.deleteByFilter(filter));
