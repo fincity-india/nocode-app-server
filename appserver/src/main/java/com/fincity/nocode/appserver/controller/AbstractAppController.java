@@ -21,7 +21,7 @@ public abstract class AbstractAppController {
 
 	protected Mono<RequestContext> getRequestContext(final ServerHttpRequest request) {
 
-//		masterData.getTable(Tenant.SCHEMA.getNamespace(), Tenant.SCHEMA.getId());
+//		masterData.getTable(Tenant.SCHEMA.getNamespace(), Tenant.SCHEMA.getName());
 //		request.
 		return Mono.just(RequestContext.forAnonymous("master", "app"));
 	}
