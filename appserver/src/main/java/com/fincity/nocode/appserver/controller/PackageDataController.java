@@ -18,9 +18,10 @@ public class PackageDataController extends AbstractDataController {
 	public static final String MAPPING = "/api/data/package";
 
 	protected <R> Mono<R> commonChain(final ServerHttpRequest request, final String pckg, final String dataStore,
-			Function<IStore, Mono<R>> mapper) {
+	        Function<IStore, Mono<R>> mapper) {
 		return this.getRequestContext(request)
-				.flatMap(c -> dataService.getStoreByPackageName(c.getTenant(), pckg, dataStore).flatMap(mapper)
-						.contextWrite(ctx -> ctx.put(RequestContext.NAME, c)));
+		        .flatMap(c -> dataService.getStoreByPackageName(c.getTenant(), pckg, dataStore)
+		                .flatMap(mapper)
+		                .contextWrite(ctx -> ctx.put(RequestContext.NAME, c)));
 	}
 }

@@ -17,10 +17,10 @@ public class AppServerConfiguration extends NoCodeCoreConfiguration implements W
 
 		registry.addMapping("/api/**");
 	}
-	
+
 	@Override
 	public void configureHttpMessageCodecs(final ServerCodecConfigurer configurer) {
-	
+
 		WebFluxConfigurer.super.configureHttpMessageCodecs(configurer);
 	}
 }

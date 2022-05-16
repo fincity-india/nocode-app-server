@@ -15,9 +15,9 @@ import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class,
-		MongoReactiveAutoConfiguration.class, MongoReactiveDataAutoConfiguration.class, R2dbcAutoConfiguration.class,
-		R2dbcDataAutoConfiguration.class, RedisAutoConfiguration.class, DataSourceAutoConfiguration.class,
-		DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
+        MongoReactiveAutoConfiguration.class, MongoReactiveDataAutoConfiguration.class, R2dbcAutoConfiguration.class,
+        R2dbcDataAutoConfiguration.class, RedisAutoConfiguration.class, DataSourceAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
 @ComponentScan(basePackages = "com.fincity")
 public class AppServerApplication {
 

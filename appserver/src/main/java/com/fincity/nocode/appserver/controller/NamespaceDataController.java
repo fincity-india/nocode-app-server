@@ -16,10 +16,12 @@ import reactor.core.publisher.Mono;
 public class NamespaceDataController extends AbstractDataController {
 
 	public static final String MAPPING = "/api/data/namespace";
-	
+
 	protected <R> Mono<R> commonChain(final ServerHttpRequest request, final String namespace, final String dataStore,
-			Function<IStore, Mono<R>> mapper) {
-		return this.getRequestContext(request).flatMap(c -> dataService.getStoreByNamespace(c.getTenant(), namespace, dataStore)
-				.flatMap(mapper).contextWrite(ctx -> ctx.put(RequestContext.NAME, c)));
+	        Function<IStore, Mono<R>> mapper) {
+		return this.getRequestContext(request)
+		        .flatMap(c -> dataService.getStoreByNamespace(c.getTenant(), namespace, dataStore)
+		                .flatMap(mapper)
+		                .contextWrite(ctx -> ctx.put(RequestContext.NAME, c)));
 	}
 }

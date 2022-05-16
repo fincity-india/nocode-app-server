@@ -22,7 +22,9 @@ public class RequestContext {
 	private Set<String> authorities;
 
 	public static RequestContext forAnonymous(final String tenant, final String app) {
-		return new RequestContext().setApp(app).setTenant(tenant).setUsername("_ANONYMOUS_USER")
-				.setAuthorities(Set.of("_ANONYMOUS"));
+		return new RequestContext().setApp(app)
+		        .setTenant(tenant)
+		        .setUsername("_ANONYMOUS_USER")
+		        .setAuthorities(Set.of("_ANONYMOUS"));
 	}
 }
